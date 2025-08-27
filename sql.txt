@@ -1,0 +1,434 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Feb 16 10:49:03 2024
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect system/mysql
+Connected.
+SQL> create table emp(
+  2  emp number(4),
+  3  ename char(10),
+  4  city char(10),
+  5  address varchar(10)
+  6  );
+
+Table created.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMP                                                NUMBER(4)
+ ENAME                                              CHAR(10)
+ CITY                                               CHAR(10)
+ ADDRESS                                            VARCHAR2(10)
+
+SQL> drop table emp;
+
+Table dropped.
+
+SQL> desc emp;
+ERROR:
+ORA-04043: object emp does not exist
+
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  create table emp(
+  2  eno number(4),
+  3  ename char(10),
+  4  city char(10),
+  5  address varchar(10)
+  6* )
+  7  ;
+
+Table created.
+
+SQL> alter table emp add(emobile number(10));
+
+Table altered.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ENO                                                NUMBER(4)
+ ENAME                                              CHAR(10)
+ CITY                                               CHAR(10)
+ ADDRESS                                            VARCHAR2(10)
+ EMOBILE                                            NUMBER(10)
+
+SQL> alter table emp modify(emob number(12));
+alter table emp modify(emob number(12))
+                       *
+ERROR at line 1:
+ORA-00904: "EMOB": invalid identifier
+
+
+SQL> alter table emp modify(emobile number(12));
+
+Table altered.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ENO                                                NUMBER(4)
+ ENAME                                              CHAR(10)
+ CITY                                               CHAR(10)
+ ADDRESS                                            VARCHAR2(10)
+ EMOBILE                                            NUMBER(12)
+
+SQL> insert into emp values(101,'siddhi','panvel','ahdfvhfi',7743895726);
+
+1 row created.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ENO                                                NUMBER(4)
+ ENAME                                              CHAR(10)
+ CITY                                               CHAR(10)
+ ADDRESS                                            VARCHAR2(10)
+ EMOBILE                                            NUMBER(12)
+
+SQL> select * from emp;
+
+       ENO ENAME      CITY       ADDRESS       EMOBILE
+---------- ---------- ---------- ---------- ----------
+       101 siddhi     panvel     ahdfvhfi   7743895726
+
+SQL> insert into emp values(&eno,'&ename','&city','&address',&emobile)
+  2  ;
+Enter value for eno: 102
+Enter value for ename: xyz
+Enter value for city: kharghar
+Enter value for address: vthrgfsf
+Enter value for emobile: 9000045678
+old   1: insert into emp values(&eno,'&ename','&city','&address',&emobile)
+new   1: insert into emp values(102,'xyz','kharghar','vthrgfsf',9000045678)
+
+1 row created.
+
+SQL> insert into emp values(&eno,'&ename','&city','&address',&emobile);
+Enter value for eno: 103
+Enter value for ename: sad
+Enter value for city: mumbai
+Enter value for address: swefsxef
+Enter value for emobile: 1234567890
+old   1: insert into emp values(&eno,'&ename','&city','&address',&emobile)
+new   1: insert into emp values(103,'sad','mumbai','swefsxef',1234567890)
+
+1 row created.
+
+SQL> insert into emp values(&eno,'&ename','&city','&address',&emobile);
+Enter value for eno: 104
+Enter value for ename: sfsg
+Enter value for city: england
+Enter value for address: sdfsrf
+Enter value for emobile: 0987654312
+old   1: insert into emp values(&eno,'&ename','&city','&address',&emobile)
+new   1: insert into emp values(104,'sfsg','england','sdfsrf',0987654312)
+
+1 row created.
+
+SQL> insert into emp values(&eno,'&ename','&city','&address',&emobile);
+Enter value for eno: 105
+Enter value for ename: kmjkn
+Enter value for city: chennai
+Enter value for address: rfsd
+Enter value for emobile: 000009987
+old   1: insert into emp values(&eno,'&ename','&city','&address',&emobile)
+new   1: insert into emp values(105,'kmjkn','chennai','rfsd',000009987)
+
+1 row created.
+
+SQL> select * from emp;
+
+       ENO ENAME      CITY       ADDRESS       EMOBILE
+---------- ---------- ---------- ---------- ----------
+       101 siddhi     panvel     ahdfvhfi   7743895726
+       102 xyz        kharghar   vthrgfsf   9000045678
+       103 sad        mumbai     swefsxef   1234567890
+       104 sfsg       england    sdfsrf      987654312
+       105 kmjkn      chennai    rfsd             9987
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from emp;
+
+       ENO ENAME      CITY       ADDRESS       EMOBILE
+---------- ---------- ---------- ---------- ----------
+       101 siddhi     panvel     ahdfvhfi   7743895726
+       102 xyz        kharghar   vthrgfsf   9000045678
+       103 sad        mumbai     swefsxef   1234567890
+       104 sfsg       england    sdfsrf      987654312
+       105 kmjkn      chennai    rfsd             9987
+
+SQL> update emp set ename='kunal' where eno=104;
+
+1 row updated.
+
+SQL> select * from emp;
+
+       ENO ENAME      CITY       ADDRESS       EMOBILE
+---------- ---------- ---------- ---------- ----------
+       101 siddhi     panvel     ahdfvhfi   7743895726
+       102 xyz        kharghar   vthrgfsf   9000045678
+       103 sad        mumbai     swefsxef   1234567890
+       104 kunal      england    sdfsrf      987654312
+       105 kmjkn      chennai    rfsd             9987
+
+SQL> delete from emp where eno=105;
+
+1 row deleted.
+
+SQL> select * from emp;
+
+       ENO ENAME      CITY       ADDRESS       EMOBILE
+---------- ---------- ---------- ---------- ----------
+       101 siddhi     panvel     ahdfvhfi   7743895726
+       102 xyz        kharghar   vthrgfsf   9000045678
+       103 sad        mumbai     swefsxef   1234567890
+       104 kunal      england    sdfsrf      987654312
+
+SQL> create user sqladmin identified by Siddhi
+  2  ;
+
+User created.
+
+SQL> grant connect to sqladmin;
+
+Grant succeeded.
+
+SQL> grant select,update,insert on emp to sqladmin;
+
+Grant succeeded.
+
+SQL> drop user sqladmin;
+
+User dropped.
+
+SQL> create user sqladmin identified by siddhi;
+
+User created.
+
+SQL> grant connect to sqladmin;
+
+Grant succeeded.
+
+SQL> grant create table to sqladmin;
+
+Grant succeeded.
+
+SQL> revoke create table from sqladmin;
+
+Revoke succeeded.
+
+SQL> insert into emp values(&eno,'&ename','&city','&address',&emobile);
+Enter value for eno: 105
+Enter value for ename: ads
+Enter value for city: gef
+Enter value for address: sdesdg
+Enter value for emobile: 234567
+old   1: insert into emp values(&eno,'&ename','&city','&address',&emobile)
+new   1: insert into emp values(105,'ads','gef','sdesdg',234567)
+
+1 row created.
+
+SQL> update emp set ecity='banglore' where ename='kunal';
+update emp set ecity='banglore' where ename='kunal'
+               *
+ERROR at line 1:
+ORA-00904: "ECITY": invalid identifier
+
+
+SQL> update emp set city='banglore' where ename='kunal';
+
+1 row updated.
+
+SQL> savepoint A;
+
+Savepoint created.
+
+SQL> insert into emp values(&eno,'&ename','&city','&address',&emobile);
+Enter value for eno: 106
+Enter value for ename: priya
+Enter value for city: pune
+Enter value for address: sasffg
+Enter value for emobile: 2345677
+old   1: insert into emp values(&eno,'&ename','&city','&address',&emobile)
+new   1: insert into emp values(106,'priya','pune','sasffg',2345677)
+
+1 row created.
+
+SQL> savepoint B;
+
+Savepoint created.
+
+SQL> select * from emp;
+
+       ENO ENAME      CITY       ADDRESS       EMOBILE
+---------- ---------- ---------- ---------- ----------
+       101 siddhi     panvel     ahdfvhfi   7743895726
+       102 xyz        kharghar   vthrgfsf   9000045678
+       103 sad        mumbai     swefsxef   1234567890
+       104 kunal      banglore   sdfsrf      987654312
+       106 priya      pune       sasffg        2345677
+       105 ads        gef        sdesdg         234567
+
+6 rows selected.
+
+SQL> rollback B;
+rollback B
+         *
+ERROR at line 1:
+ORA-02181: invalid option to ROLLBACK WORK
+
+
+SQL> rollback to B;
+
+Rollback complete.
+
+SQL> select * from emp;
+
+       ENO ENAME      CITY       ADDRESS       EMOBILE
+---------- ---------- ---------- ---------- ----------
+       101 siddhi     panvel     ahdfvhfi   7743895726
+       102 xyz        kharghar   vthrgfsf   9000045678
+       103 sad        mumbai     swefsxef   1234567890
+       104 kunal      banglore   sdfsrf      987654312
+       106 priya      pune       sasffg        2345677
+       105 ads        gef        sdesdg         234567
+
+6 rows selected.
+
+SQL> rollback to A;
+
+Rollback complete.
+
+SQL> select * from emp;
+
+       ENO ENAME      CITY       ADDRESS       EMOBILE
+---------- ---------- ---------- ---------- ----------
+       101 siddhi     panvel     ahdfvhfi   7743895726
+       102 xyz        kharghar   vthrgfsf   9000045678
+       103 sad        mumbai     swefsxef   1234567890
+       104 kunal      banglore   sdfsrf      987654312
+       105 ads        gef        sdesdg         234567
+
+SQL> rollback to B;
+rollback to B
+*
+ERROR at line 1:
+ORA-01086: savepoint 'B' never established in this session or is invalid
+
+
+SQL> select * from emp;
+
+       ENO ENAME      CITY       ADDRESS       EMOBILE
+---------- ---------- ---------- ---------- ----------
+       101 siddhi     panvel     ahdfvhfi   7743895726
+       102 xyz        kharghar   vthrgfsf   9000045678
+       103 sad        mumbai     swefsxef   1234567890
+       104 kunal      banglore   sdfsrf      987654312
+       105 ads        gef        sdesdg         234567
+
+SQL> alter table emp add(esal number(8,2));
+
+Table altered.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ENO                                                NUMBER(4)
+ ENAME                                              CHAR(10)
+ CITY                                               CHAR(10)
+ ADDRESS                                            VARCHAR2(10)
+ EMOBILE                                            NUMBER(12)
+ ESAL                                               NUMBER(8,2)
+
+SQL> alter table emp add(DOB number(9));
+
+Table altered.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ENO                                                NUMBER(4)
+ ENAME                                              CHAR(10)
+ CITY                                               CHAR(10)
+ ADDRESS                                            VARCHAR2(10)
+ EMOBILE                                            NUMBER(12)
+ ESAL                                               NUMBER(8,2)
+ DOB                                                NUMBER(9)
+
+SQL> select * from emp;
+
+       ENO ENAME      CITY       ADDRESS       EMOBILE       ESAL        DOB
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+       101 siddhi     panvel     ahdfvhfi   7743895726
+       102 xyz        kharghar   vthrgfsf   9000045678
+       103 sad        mumbai     swefsxef   1234567890
+       104 kunal      banglore   sdfsrf      987654312
+       105 ads        gef        sdesdg         234567
+
+SQL> update emp set esal=400000 where ename='kunal';
+
+1 row updated.
+
+SQL> update emp set esal=300000 where ename='sad';
+
+1 row updated.
+
+SQL> update emp set esal=300000 where ename='xyz';
+
+1 row updated.
+
+SQL> update emp set esal=300000 where ename='ads';
+
+1 row updated.
+
+SQL> update emp set esal=1000000 where ename='siddhi';
+update emp set esal=1000000 where ename='siddhi'
+                    *
+ERROR at line 1:
+ORA-01438: value larger than specified precision allowed for this column
+
+
+SQL> update emp set esal=900000 where ename='siddhi';
+
+1 row updated.
+
+SQL> select * from emp;
+
+       ENO ENAME      CITY       ADDRESS       EMOBILE       ESAL        DOB
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+       101 siddhi     panvel     ahdfvhfi   7743895726     900000
+       102 xyz        kharghar   vthrgfsf   9000045678     300000
+       103 sad        mumbai     swefsxef   1234567890     300000
+       104 kunal      banglore   sdfsrf      987654312     400000
+       105 ads        gef        sdesdg         234567     300000
+
+SQL> update emp set dob= where ename='kunal';
+update emp set dob= where ename='kunal'
+                    *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> update emp set dob=05/03/01 where ename='kunal';
+
+1 row updated.
+
+SQL> select * from emp;
+
+       ENO ENAME      CITY       ADDRESS       EMOBILE       ESAL        DOB
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+       101 siddhi     panvel     ahdfvhfi   7743895726     900000
+       102 xyz        kharghar   vthrgfsf   9000045678     300000
+       103 sad        mumbai     swefsxef   1234567890     300000
+       104 kunal      banglore   sdfsrf      987654312     400000          2
+       105 ads        gef        sdesdg         234567     300000
+
+SQL>
